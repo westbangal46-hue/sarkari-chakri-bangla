@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>সরকারি চাকরি বাংলা</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f1f5f9;color:#172033}
+header{background:#075e46;color:white;padding:22px 14px;text-align:center}
+header h1{margin:0;font-size:25px}
+header p{margin:9px 0 0}
+nav{display:flex;gap:8px;padding:12px;background:white;justify-content:center;flex-wrap:wrap}
+button,.btn{background:#087f5b;color:white;border:0;padding:11px 14px;border-radius:7px;cursor:pointer;text-decoration:none;font-size:14px}
+main{max-width:760px;margin:auto;padding:14px}
+input,select{width:100%;padding:13px;margin:6px 0 12px;border:1px solid #ccd5df;border-radius:7px;font-size:16px;background:white}
+h2{font-size:20px}
+.card{background:white;padding:15px;margin:12px 0;border-radius:10px;box-shadow:0 2px 7px #0000000d}
+.badge{color:#087f5b;font-weight:bold}
+footer{text-align:center;padding:20px;font-size:13px;color:#555}
+</style>
+</head>
+<body>
+<header>
+<h1>সরকারি চাকরি বাংলা</h1>
+<p>পশ্চিমবঙ্গ ও কেন্দ্রীয় সরকারি চাকরির খবর</p>
+</header>
+
+<nav>
+<button onclick="showJobs('all')">সব চাকরি</button>
+<button onclick="showJobs('wb')">পশ্চিমবঙ্গ</button>
+<button onclick="showJobs('central')">কেন্দ্রীয়</button>
+</nav>
+
+<main>
+<h2>🔎 চাকরি খুঁজুন</h2>
+<input id="search" placeholder="চাকরির নাম লিখুন..." oninput="showJobs()">
+
+<select id="education" onchange="showJobs()">
+<option value="all">সব শিক্ষাগত যোগ্যতা</option>
+<option value="10">মাধ্যমিক</option>
+<option value="12">উচ্চমাধ্যমিক</option>
+<option value="graduate">স্নাতক</option>
+</select>
+
+<div id="jobs"></div>
+
+<div class="card">
+<h3>📢 গুরুত্বপূর্ণ কথা</h3>
+<p>আবেদন করার আগে সংশ্লিষ্ট সরকারি দপ্তরের অফিসিয়াল বিজ্ঞপ্তি যাচাই করুন।</p>
+<p>এই ওয়েবসাইটটি একটি স্বাধীন তথ্যসেবা; এটি কোনও সরকারি ওয়েবসাইট নয়।</p>
+</div>
+</main>
+
+<footer>সরকারি চাকরি বাংলা © ২০২৬</footer>
+
+<script>
+const jobs = [
+{
+title:"চাকরির বিজ্ঞপ্তি এখানে যোগ করা হবে",
+type:"wb",
+education:"10",
+details:"যোগ্যতা, বয়সসীমা ও আবেদনের তারিখ অফিসিয়াল বিজ্ঞপ্তি অনুযায়ী যোগ করা হবে।",
+link:"https://www.wb.gov.in/"
+},
+{
+title:"কেন্দ্রীয় সরকারি চাকরির বিজ্ঞপ্তি",
+type:"central",
+education:"graduate",
+details:"নতুন বিজ্ঞপ্তি প্রকাশ হলে যাচাই করে তথ্য যোগ করা হবে।",
+link:"https://www.ncs.gov.in/"
+}
+];
+
+let category="all";
+
+function showJobs(type){
+if(type) category=type;
+const q=document.getElementById("search").value.toLowerCase();
+const e=document.getElementById("education").value;
+const box=document.getElementById("jobs");
+
+const filtered=jobs.filter(j=>
+(category==="all"||j.type===category)&&
+j.title.toLowerCase().includes(q)&&
+(e==="all"||j.education===e)
+);
+
+box.innerHTML=filtered.map(j=>`
+<div class="card">
+<span class="badge">${j.type==="wb"?"পশ্চিমবঙ্গ":"কেন্দ্রীয় সরকার"}</span>
+<h3>${j.title}</h3>
+<p>${j.details}</p>
+<a class="btn" href="${j.link}" target="_blank" rel="noopener">অফিসিয়াল ওয়েবসাইট দেখুন</a>
+</div>
+`).join("")||"<div class='card'>কোনও ফল পাওয়া যায়নি।</div>";
+}
+showJobs();
+</script>
+</body>
+</html>
